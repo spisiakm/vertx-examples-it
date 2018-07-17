@@ -21,10 +21,8 @@ public class Run {
 
   public static final ObjectMapper MAPPER = new ObjectMapper().enable(JsonParser.Feature.ALLOW_COMMENTS);
   private final Log log;
-  private final File libs;
   private JsonNode node;
   private final File file;
-  private final File vertx;
   private final File reportDirectory;
   private final String itf;
 
@@ -33,13 +31,11 @@ public class Run {
   private long totalExecutionTime;
   private List<File> copiedLibraryFiles = new ArrayList<>();
 
-  public Run(File json, Log log, File vertx, File reportDirectory, String itf) {
+  public Run(File json, Log log, File reportDirectory, String itf) {
     file = json;
-    this.vertx = vertx;
     this.reportDirectory = reportDirectory;
     this.itf = itf;
     this.log = log;
-    this.libs = new File(vertx.getParentFile().getParentFile(), "lib");
   }
 
   public void prepare() throws IOException {
@@ -58,20 +54,9 @@ public class Run {
       executions.add(new Execution(this, name, exec.get(name), log));
     }
 
-    // Read vert.x version
-    String vertxVersion = extractVertxVersion(vertx.getParentFile().getParentFile());
-    if (vertxVersion != null) {
-      log.debug("Extracted vert.x version: " + vertxVersion);
-    } else {
-      log.warn("Was not able to extract vert.x version");
-    }
-
     if (node.get("libraries") != null && node.get("libraries").isArray()) {
       for (JsonNode t : node.get("libraries")) {
         String path = t.asText();
-        if (vertxVersion != null) {
-          path = t.asText().replace("${vertx.version}", vertxVersion);
-        }
 
         File file = new File(path);
         File parent = file.getParentFile();
@@ -86,13 +71,6 @@ public class Run {
         if (files == null) {
           log.error("Cannot copy dependencies - IO issue");
           return;
-        }
-
-        for (File match : files) {
-          log.info("Copying " + match.getAbsolutePath() + " to " + libs.getAbsolutePath() + " - the file will be " +
-              "removed once the run has been completed");
-          copiedLibraryFiles.add(new File(libs, match.getName()));
-          FileUtils.copyFileToDirectory(match, libs);
         }
 
         if (files.length == 0) {
@@ -145,10 +123,6 @@ public class Run {
       totalExecutionTime += (end - begin);
       execution.dumpReport(reportDirectory);
     }
-  }
-
-  public File vertx() {
-    return vertx;
   }
 
   public File base() {

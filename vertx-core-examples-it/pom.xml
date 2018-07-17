@@ -7,7 +7,7 @@
   <parent>
     <groupId>io.vertx</groupId>
     <artifactId>integration-tests</artifactId>
-    <version>3.5.0</version>
+    <version>3.5.1</version>
   </parent>
 
   <artifactId>vertx-core-examples-it</artifactId>
@@ -41,7 +41,7 @@
             </goals>
             <phase>process-sources</phase>
             <configuration>
-              <url>https://github.com/vert-x3/vertx-examples/archive/${vertx.examples.branch}.zip</url>
+              <url>https://github.com/spisiakm/vertx-examples/archive/${vertx.examples.branch}.zip</url>
               <prefix>vertx-examples-${vertx.examples.branch}</prefix>
               <includes>
                 <include>**/core-examples/**/*</include>
@@ -62,32 +62,13 @@
             </goals>
             <phase>integration-test</phase>
             <configuration>
-              <vertxHome>${project.build.directory}/vert.x-${vertx.version}/vertx</vertxHome>
               <inputDirectory>${project.basedir}/src/it</inputDirectory>
               <outputDirectory>${project.build.directory}/it</outputDirectory>
               <additionalProperties>
                 <base>${project.build.directory}/it/core-examples</base>
                 <dependencies>${project.build.directory}/dependencies</dependencies>
+                <jarFile>${base}/target/core-examples-${vertx.version}.jar</jarFile>
               </additionalProperties>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.10</version>
-        <executions>
-          <execution>
-            <id>unpack-vertx-stack</id>
-            <goals>
-              <goal>unpack-dependencies</goal>
-            </goals>
-            <phase>process-resources</phase>
-            <configuration>
-              <includeArtifactIds>vertx-stack-manager</includeArtifactIds>
-              <outputDirectory>${project.build.directory}/vert.x-${vertx.version}</outputDirectory>
-              <skip>${fastbuild}</skip>
             </configuration>
           </execution>
         </executions>
@@ -128,9 +109,6 @@
                 <goal>clean</goal>
                 <goal>install</goal>
               </goals>
-              <profiles>
-                <profile>staging</profile>
-              </profiles>
               <skipInvocation>${fastbuild}</skipInvocation>
             </configuration>
           </execution>
@@ -149,11 +127,10 @@
                 <goal>package</goal>
                 <goal>org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies</goal>
               </goals>
-              <profiles>
-                <profile>staging</profile>
-              </profiles>
               <properties>
                 <outputDirectory>${project.build.directory}/dependencies</outputDirectory>
+                <vertx.version>${vertx.version}</vertx.version>
+                <release.candidate.repository>${release.candidate.repository}</release.candidate.repository>
               </properties>
               <skipInvocation>${fastbuild}</skipInvocation>
             </configuration>

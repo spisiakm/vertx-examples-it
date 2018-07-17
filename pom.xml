@@ -6,13 +6,16 @@
 
   <groupId>io.vertx</groupId>
   <artifactId>integration-tests</artifactId>
-  <version>3.5.0</version>
+  <version>3.5.1</version>
 
   <packaging>pom</packaging>
 
   <properties>
-    <vertx.version>3.5.0</vertx.version>
-    <vertx.examples.branch>3.5.0-staging</vertx.examples.branch>
+    <vertx.version>3.5.1.redhat-004</vertx.version>
+    <vertx.examples.branch>downstream-3.5.x</vertx.examples.branch>
+    <release.candidate.repository>
+      https://maven.repository.redhat.com/ga/
+    </release.candidate.repository>
   </properties>
 
   <profiles>
@@ -53,23 +56,8 @@
       </modules>
     </profile>
   </profiles>
-  <dependencies>
-    <dependency>
-      <groupId>io.vertx</groupId>
-      <artifactId>vertx-stack-manager</artifactId>
-      <version>${vertx.version}</version>
-      <classifier>full</classifier>
-      <type>zip</type>
-      <scope>provided</scope>
-      <exclusions>
-        <!-- Explicitely exclude groovy to avoid the conflict with the script execution -->
-        <exclusion>
-          <groupId>org.codehaus.groovy</groupId>
-          <artifactId>groovy-all</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
 
+  <dependencies>
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
@@ -151,6 +139,19 @@
       <releases>
         <enabled>true</enabled>
       </releases>
+    </repository>
+    <repository>
+      <id>redhat-build</id>
+      <name>Red Hat builds Repository</name>
+      <url>${release.candidate.repository}</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
   </repositories>
 </project>

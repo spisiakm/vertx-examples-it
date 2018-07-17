@@ -8,8 +8,8 @@
 
     "java" : {
       "directory" : "${base}/target/classes",
-      "command" : "vertx run io.vertx.example.core.eventbus.messagecodec.Sender -cluster -cluster-host ${interface}",
-      "client-command" : "vertx run io.vertx.example.core.eventbus.messagecodec.ClusterReceiver -cluster -cluster-host ${interface}",
+      "command" : "java -Djava.net.preferIPv4Stack=true -jar ${jarFile} run io.vertx.example.core.eventbus.messagecodec.Sender -cluster -cluster-host ${interface}",
+      "client-command" : "java -Djava.net.preferIPv4Stack=true -jar ${jarFile} run io.vertx.example.core.eventbus.messagecodec.ClusterReceiver -cluster -cluster-host ${interface}",
       "execute-until" : "Message sent from cluster receiver!"
     }
   },

@@ -69,7 +69,7 @@ public class VertxITMojo extends AbstractMojo {
   @Parameter(defaultValue = "${interface}")
   public String itf;
 
-  @Component
+  @Parameter(defaultValue = "${session}", readonly = true)
   public MavenSession session;
 
   @Component
@@ -132,27 +132,27 @@ public class VertxITMojo extends AbstractMojo {
       throw new MojoExecutionException("Cannot initialize templates", e);
     }
 
-    File vertx;
+//    File vertx;
     File java;
     if (!OS.isFamilyWindows()) {
-      vertx = new File(vertxHome, "bin/vertx");
+//      vertx = new File(vertxHome, "bin/vertx");
       java = new File(javaHome, "bin/java");
     } else {
-      vertx = new File(vertxHome, "bin/vertx.bat");
+//      vertx = new File(vertxHome, "bin/vertx.bat");
       java = new File(javaHome, "bin/java.exe");
     }
 
-    if (!vertx.isFile()) {
-      throw new MojoExecutionException("vert.x command not found in "
-          + vertxHome.getAbsolutePath());
-    }
+//    if (!vertx.isFile()) {
+//      throw new MojoExecutionException("vert.x command not found in "
+//          + vertxHome.getAbsolutePath());
+//    }
 
     if (!java.isFile()) {
       throw new MojoExecutionException("java command not found in "
           + javaHome.getAbsolutePath());
     }
 
-    Executor.init(getLog(), ImmutableMap.of("vertx", vertx, "java", java));
+    Executor.init(getLog(), ImmutableMap.of("java", java));
     GroovyScriptHelper.init(classpathElements);
 
     try {
@@ -184,7 +184,7 @@ public class VertxITMojo extends AbstractMojo {
 
     // Execute them
     for (File f : files) {
-      Run run = new Run(f, getLog(), vertx, report, itf);
+      Run run = new Run(f, getLog(), report, itf);
       try {
         run.prepare();
         for (Execution execution : run.executions()) {
