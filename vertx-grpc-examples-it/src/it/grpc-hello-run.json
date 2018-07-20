@@ -22,8 +22,8 @@
 
     "java" : {
       "directory" : "${base}/src/main/java/io/vertx/example/grpc/helloworld",
-      "command" : "vertx run io.vertx.example.grpc.helloworld.Server -cp ${base}/target/classes:.",
-      "client-command" : "vertx run io.vertx.example.grpc.helloworld.Client  -cp ${base}/target/classes:."
+      "command" : "java -jar ${jarFile} run io.vertx.example.grpc.helloworld.Server -cp ${base}/target/classes:.",
+      "client-command" : "java -jar ${jarFile} run io.vertx.example.grpc.helloworld.Client  -cp ${base}/target/classes:."
     }
     
   },

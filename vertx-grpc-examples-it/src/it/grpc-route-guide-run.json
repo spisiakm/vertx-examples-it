@@ -22,8 +22,8 @@
 
     "java" : {
       "directory" : "${base}/src/main/java/io/vertx/example/grpc/routeguide",
-      "command" : "vertx run io.vertx.example.grpc.routeguide.Server -cp ${base}/target/classes:.",
-      "client-command" : "vertx run io.vertx.example.grpc.routeguide.Client  -cp ${base}/target/classes:."
+      "command" : "java -jar ${jarFile} run io.vertx.example.grpc.routeguide.Server -cp ${base}/target/classes:.",
+      "client-command" : "java -jar ${jarFile} run io.vertx.example.grpc.routeguide.Client  -cp ${base}/target/classes:."
     }
     
   },

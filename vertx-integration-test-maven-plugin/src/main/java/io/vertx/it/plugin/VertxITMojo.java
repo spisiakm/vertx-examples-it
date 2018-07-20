@@ -45,9 +45,6 @@ public class VertxITMojo extends AbstractMojo {
   @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
   public File buildDirectory;
 
-  @Parameter(defaultValue = "${vertx.home}", required = true)
-  public File vertxHome;
-
   @Parameter(required = true)
   public File outputDirectory;
 
@@ -112,10 +109,6 @@ public class VertxITMojo extends AbstractMojo {
       selector = new ExecutionSelector(includes, excludes, null);
     } else if (tag != null) {
       selector = new ExecutionSelector(null, null, tag);
-    }
-
-    if (vertxHome == null) {
-      throw new MojoExecutionException("vert.x home not defined");
     }
 
     // Publish the additional properties as system properties
