@@ -4,8 +4,10 @@ import io.vertx.it.plugin.win.WindowsDestroyer;
 import org.apache.commons.exec.OS;
 import org.apache.commons.exec.ProcessDestroyer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by clement on 25/06/2015.
@@ -36,6 +38,7 @@ class Destroyer implements ProcessDestroyer {
         p.destroyForcibly();
       }
       processes.remove(p);
+      stopDockerDatabaseIfExists();
       System.out.println("Process destroyed");
     }
   }
@@ -82,6 +85,25 @@ class Destroyer implements ProcessDestroyer {
   @Override
   public synchronized int size() {
     return processes.size();
+  }
+
+  //For test use two types of docker containers
+  public static void stopDockerDatabaseIfExists() {
+    for (String name : new String[]{"mongo","postgres"}) {
+      ProcessBuilder processBuilder = new ProcessBuilder("docker", "rm", name, "-f");
+      try {
+        Process process = processBuilder.start();
+        if (process.waitFor(1, TimeUnit.MINUTES) && process.exitValue() == 0) {
+          System.out.println((char) 27 + "[32mA " + name + " database has been stopped successfully." + (char) 27 + "[0m");
+        } else {
+          System.out.println((char) 27 + "[31mA " + name + " database shutdown has failed!" + (char) 27 + "[0m");
+        }
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
 }

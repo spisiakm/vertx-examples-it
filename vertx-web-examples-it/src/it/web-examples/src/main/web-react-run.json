@@ -6,8 +6,8 @@
   "executions": {
 
     "java" : {
-      "directory" : "${base}/src/main/java/io/vertx/example/web/react",
-      "command" : "vertx run io.vertx.example.web.react.Server -cp ${base}/target/classes:."
+      "directory" : "${base}/target/classes",
+      "command" : "java -jar ${jarFile} run io.vertx.example.web.react.Server"
     }
   },
 

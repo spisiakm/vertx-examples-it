@@ -6,25 +6,15 @@
     "jdbc"
   ],
   "libraries": [
-    "${dependencies}/hsqldb"
+    "${dependencies}"
   ],
   "executions": {
-    "java": {
-      "directory": "${base}/src/main/java/io/vertx/example/web/jdbc",
-      "command": "vertx run io.vertx.example.web.jdbc.Server -cp ${base}/target/classes:."
+
+    "java" : {
+      "directory" : "${base}/target/classes",
+      "command" : "java -jar ${jarFile} run io.vertx.example.web.jdbc.Server"
     }
-//    "js": {
-//      "directory": "${base}/src/main/js/io/vertx/example/web/jdbc",
-//      "command": "vertx run server.js -cp ${base}/target/classes:."
-//    },
-//    "groovy": {
-//      "directory": "${base}/src/main/groovy/io/vertx/example/web/jdbc",
-//      "command": "vertx run server.groovy -cp ${base}/target/classes:."
-//    },
-//    "ruby": {
-//      "directory": "${base}/src/main/ruby/io/vertx/example/web/jdbc",
-//      "command": "vertx run server.rb -cp ${base}/target/classes:."
-//    }
+
   },
   "grace-text": "Succeeded in deploying verticle",
   "client-check": "web-jdbc-check.groovy"
