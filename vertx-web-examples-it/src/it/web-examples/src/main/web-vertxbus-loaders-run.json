@@ -7,13 +7,9 @@
 
     "amd" : {
       "directory" : "${base}/src/main/java/io/vertx/example/web/vertxbus/amd",
-      "command" : "vertx run io.vertx.example.web.vertxbus.amd.Server -cp ${base}/target/classes:."
-    },
-
-    "common-js" : {
-      "directory" : "${base}/src/main/java/io/vertx/example/web/vertxbus/commonjs",
-      "command" : "vertx run io.vertx.example.web.vertxbus.commonjs.Server -cp ${base}/target/classes:."
+      "command" : "java -jar ${jarFile} run io.vertx.example.web.vertxbus.amd.Server"
     }
+
   },
 
   "grace-text": "Succeeded in deploying verticle",
